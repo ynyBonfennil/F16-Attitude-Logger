@@ -4,6 +4,8 @@
 
 This Unity project was created in order to log the attitude of the F16 which dodged 6 SAMs (Surface-to-air missiles) near Baghdad on 19th January 1991.
 
+By connecting your iPhone with unity remote installed, you can control your main camera's attitude based on your iPhone's gyroscope. And by aligning the attitude indicator to that in the movie, you can track the actual F16's attitude.
+
 ## Reference
 
 Details of this airstrike: [Package Q Strike | Wikipedia](https://en.wikipedia.org/wiki/Package_Q_Strike)
