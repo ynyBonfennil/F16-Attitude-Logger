@@ -1,4 +1,4 @@
-# F16 Attitude Logger
+# F16 Attitude Logger for Package Q Strike Footage
 
 ![scene-image](./scene-image.png)
 
@@ -8,8 +8,15 @@ By connecting your iPhone with unity remote installed, you can control your main
 
 ## Reference
 
-Details of this airstrike: [Package Q Strike | Wikipedia](https://en.wikipedia.org/wiki/Package_Q_Strike)
+### Details of this airstrike
 
-Head Up Display Footage: [F-16 dodging 6 Iraqi SAM launches on Jan 19 1991 | YouTube](https://www.youtube.com/watch?v=2uh4yMAx2UA)
+- [Package Q Strike](https://en.wikipedia.org/wiki/Package_Q_Strike)
 
-Head Up Display Footage Breakdown: [F-16 Evades SIX Surface to Air Missiles! HUD Footage Breakdown](https://www.youtube.com/watch?v=TJE5gDDnq9s)
+### Head Up Display Footage
+
+- [F-16 dodging 6 Iraqi SAM launches on Jan 19 1991](https://www.youtube.com/watch?v=2uh4yMAx2UA)
+
+### Head Up Display Footage Breakdown
+
+- [F-16 Evades SIX Surface to Air Missiles! HUD Footage Breakdown](https://www.youtube.com/watch?v=TJE5gDDnq9s)
+- [Package Q, Stroke 3 (Gulf War) | DCS World Reenactment](https://www.youtube.com/watch?v=mbj6BMRutYM)
