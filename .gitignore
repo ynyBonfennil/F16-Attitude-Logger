@@ -61,3 +61,6 @@ crashlytics-build.properties
 Icon?
 ehthumbs.db
 Thumbs.db
+
+# Log data
+[Aa]ssets/Log/
