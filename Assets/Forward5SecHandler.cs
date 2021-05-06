@@ -7,12 +7,12 @@ using UnityEngine.UI;
 public class Forward5SecHandler : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
-    public Text alignmentDoneText;
+    public GameObject alignmentDoneIcon;
     public Text frameNumberText;
 
     public void Next5Seconds()
     {
-        alignmentDoneText.text = "";
+        alignmentDoneIcon.SetActive(false);
 
         long nextFrame = videoPlayer.frame + 30*5;
         videoPlayer.frame = nextFrame;

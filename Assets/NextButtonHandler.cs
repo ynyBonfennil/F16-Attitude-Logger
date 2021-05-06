@@ -7,11 +7,11 @@ using UnityEngine.UI;
 public class NextButtonHandler : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
-    public Text alignmentDoneText;
+    public GameObject alignmentDoneIcon;
     public Text frameNumberText;
     public void NextFrame()
     {
-        alignmentDoneText.text = "";
+        alignmentDoneIcon.SetActive(false);
 
         long nextFrame = videoPlayer.frame + 1;
         videoPlayer.frame = nextFrame;

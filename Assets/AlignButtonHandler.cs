@@ -6,12 +6,14 @@ using UnityEngine.Video;
 using System.IO;
 using System;
 
-public class DoneButtonHandler : MonoBehaviour
+public class AlignButtonHandler : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
     public GameObject pilotView;
+    public GameObject alignmentDoneIcon;
     private string filepath;
 
+    // Start is called before the first frame update
     void Start()
     {
         DateTime now = DateTime.Now;
@@ -45,9 +47,8 @@ public class DoneButtonHandler : MonoBehaviour
         writer.Close();
     }
 
-    public void SetText(string text)
+    public void ShowDoneMark()
     {
-        Text txt = transform.Find("Text").GetComponent<Text>();
-        txt.text = text.Replace("\\n", "\n");
+        alignmentDoneIcon.SetActive(true);
     }
 }
