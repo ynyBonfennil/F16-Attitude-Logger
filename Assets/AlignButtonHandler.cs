@@ -17,7 +17,7 @@ public class AlignButtonHandler : MonoBehaviour
     void Start()
     {
         DateTime now = DateTime.Now;
-        filepath = "Assets/Log/"
+        filepath = "Assets/Log/Attitude/"
             + now.Year.ToString() + "-"
             + now.Month.ToString() + "-"
             + now.Day.ToString() + "-"
