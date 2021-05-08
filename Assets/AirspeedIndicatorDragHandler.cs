@@ -7,8 +7,8 @@ public class AirspeedIndicatorDragHandler : MonoBehaviour, IPointerDownHandler, 
 {
     private RectTransform rectTransform;
     private Vector3 prevPointerPos;
-    private const long MAX_ANCHORED_POS_Y = 469;
-    private const long MIN_ANCHORED_POS_Y = -469;
+    private const float MAX_ANCHORED_POS_Y = 481.8f;
+    private const float MIN_ANCHORED_POS_Y = -280.0f;
 
     // Start is called before the first frame update
     void Start()

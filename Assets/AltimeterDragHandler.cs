@@ -7,8 +7,8 @@ public class AltimeterDragHandler : MonoBehaviour, IPointerDownHandler, IDragHan
 {
     private RectTransform rectTransform;
     private Vector3 prevPointerPos;
-    private const long MAX_ANCHORED_POS_Y = 469;
-    private const long MIN_ANCHORED_POS_Y = -469;
+    private const float MAX_ANCHORED_POS_Y = 1564.09f;
+    private const float MIN_ANCHORED_POS_Y = -1368.0f;
 
     // Start is called before the first frame update
     void Start()

@@ -6,20 +6,33 @@ using UnityEngine.UI;
 using System.IO;
 using System;
 
+
+/*
+    0 --> 480.8
+    5 --> 422
+    35 --> 69
+    60 --> -225.2
+
+    airspeed =  -0.085 * PosY + 40.868
+*/
 public class AirspeedNextButtonHandler : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
     public Text frameNumberText;
 
     public int playbackLatency = 10;
+
+    public GameObject airspeedIndicator;
     private int holdCounter;
     private bool isHold;
     private string filepath;
+    private RectTransform airspeedIndicatorRectTransform;
 
     void Start()
     {
         holdCounter = 0;
         isHold = false;
+        airspeedIndicatorRectTransform = airspeedIndicator.GetComponent<RectTransform>();
 
         DateTime now = DateTime.Now;
         filepath = "Assets/Log/Airspeed/"
@@ -32,6 +45,10 @@ public class AirspeedNextButtonHandler : MonoBehaviour
         StreamWriter writer = new StreamWriter(filepath, true);
         writer.WriteLine("frame,airspeed");
         writer.Close();
+
+        videoPlayer.frame = 2000;
+        videoPlayer.Play();
+        frameNumberText.text = ("Frame #2000");
     }
 
     void Update()
@@ -64,6 +81,7 @@ public class AirspeedNextButtonHandler : MonoBehaviour
         writer.WriteLine(
             videoPlayer.frame.ToString()
             + ","
+            + (-0.085*airspeedIndicatorRectTransform.anchoredPosition.y+40.868).ToString()
         );
         Debug.Log("Frame #" + videoPlayer.frame.ToString() + " Done");
         writer.Close();

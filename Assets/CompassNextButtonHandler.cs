@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using System.IO;
 using System;
 
-public class AltimeterNextButtonHandler : MonoBehaviour
+public class CompassNextButtonHandler : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
     public Text frameNumberText;
@@ -22,7 +22,7 @@ public class AltimeterNextButtonHandler : MonoBehaviour
         isHold = false;
 
         DateTime now = DateTime.Now;
-        filepath = "Assets/Log/Altitude/"
+        filepath = "Assets/Log/Compass/"
             + now.Year.ToString() + "-"
             + now.Month.ToString() + "-"
             + now.Day.ToString() + "-"
@@ -30,12 +30,8 @@ public class AltimeterNextButtonHandler : MonoBehaviour
             + now.Minute.ToString() + "-"
             + now.Second.ToString() + ".log";
         StreamWriter writer = new StreamWriter(filepath, true);
-        writer.WriteLine("frame,altitude");
+        writer.WriteLine("frame,point");
         writer.Close();
-
-        videoPlayer.frame = 2000;
-        videoPlayer.Play();
-        frameNumberText.text = ("Frame #2000");
     }
 
     void Update()
@@ -45,7 +41,7 @@ public class AltimeterNextButtonHandler : MonoBehaviour
             holdCounter++;
             if (holdCounter > playbackLatency)
             {
-                WriteAltitudeData();
+                WriteAirspeedData();
                 NextFrame();
                 holdCounter = 0;
             }
@@ -62,7 +58,7 @@ public class AltimeterNextButtonHandler : MonoBehaviour
         isHold = false;
     }
 
-    private void WriteAltitudeData()
+    private void WriteAirspeedData()
     {
         StreamWriter writer = new StreamWriter(filepath, true);
         writer.WriteLine(
