@@ -63,7 +63,10 @@ ehthumbs.db
 Thumbs.db
 
 # Ignore Log data
-[Aa]ssets/Log/
+[Aa]ssets/Log/Attitude/
+[Aa]ssets/Log/Airspeed/
+[Aa]ssets/Log/Altitude/
+[Aa]ssets/Log/Compass/
 
 # Ignore origina movie
-[Aa]ssets/movie/
+[Aa]ssets/movie/movie.mp4
