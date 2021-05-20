@@ -10,16 +10,19 @@ public class AltimeterNextButtonHandler : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
     public Text frameNumberText;
-
     public int playbackLatency = 10;
+    public int startFrame;
+    public GameObject altimeter;
     private int holdCounter;
     private bool isHold;
     private string filepath;
+    private RectTransform altimeterRectTransform;
 
     void Start()
     {
         holdCounter = 0;
         isHold = false;
+        altimeterRectTransform = altimeter.GetComponent<RectTransform>();
 
         DateTime now = DateTime.Now;
         filepath = "Assets/Log/Altitude/"
@@ -33,7 +36,7 @@ public class AltimeterNextButtonHandler : MonoBehaviour
         writer.WriteLine("frame,altitude");
         writer.Close();
 
-        videoPlayer.frame = 2000;
+        videoPlayer.frame = startFrame;
         videoPlayer.Play();
         frameNumberText.text = ("Frame #2000");
     }
@@ -68,6 +71,7 @@ public class AltimeterNextButtonHandler : MonoBehaviour
         writer.WriteLine(
             videoPlayer.frame.ToString()
             + ","
+            + (-0.008526*altimeterRectTransform.anchoredPosition.y-8.3581).ToString()
         );
         Debug.Log("Frame #" + videoPlayer.frame.ToString() + " Done");
         writer.Close();

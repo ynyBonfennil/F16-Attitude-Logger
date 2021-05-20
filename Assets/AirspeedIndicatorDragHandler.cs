@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class AirspeedIndicatorDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
+    public float sensitivity = 0.5f;
     private RectTransform rectTransform;
     private Vector3 prevPointerPos;
     private const float MAX_ANCHORED_POS_Y = 481.8f;
@@ -24,7 +25,7 @@ public class AirspeedIndicatorDragHandler : MonoBehaviour, IPointerDownHandler, 
     public void OnDrag(PointerEventData eventData)
     {
         float deltaY = eventData.position.y - prevPointerPos.y;
-        float newAnchoredPositionY = rectTransform.anchoredPosition.y + deltaY;
+        float newAnchoredPositionY = rectTransform.anchoredPosition.y + deltaY * sensitivity;
         if (newAnchoredPositionY < MIN_ANCHORED_POS_Y)
         {
             newAnchoredPositionY = MIN_ANCHORED_POS_Y;

@@ -7,20 +7,13 @@ using System.IO;
 using System;
 
 
-/*
-    0 --> 480.8
-    5 --> 422
-    35 --> 69
-    60 --> -225.2
-
-    airspeed =  -0.085 * PosY + 40.868
-*/
 public class AirspeedNextButtonHandler : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
     public Text frameNumberText;
 
     public int playbackLatency = 10;
+    public int startFrame;
 
     public GameObject airspeedIndicator;
     private int holdCounter;
@@ -46,7 +39,7 @@ public class AirspeedNextButtonHandler : MonoBehaviour
         writer.WriteLine("frame,airspeed");
         writer.Close();
 
-        videoPlayer.frame = 2000;
+        videoPlayer.frame = startFrame;
         videoPlayer.Play();
         frameNumberText.text = ("Frame #2000");
     }
@@ -81,7 +74,7 @@ public class AirspeedNextButtonHandler : MonoBehaviour
         writer.WriteLine(
             videoPlayer.frame.ToString()
             + ","
-            + (-0.085*airspeedIndicatorRectTransform.anchoredPosition.y+40.868).ToString()
+            + (-0.085*airspeedIndicatorRectTransform.anchoredPosition.y+41.072).ToString()
         );
         Debug.Log("Frame #" + videoPlayer.frame.ToString() + " Done");
         writer.Close();
