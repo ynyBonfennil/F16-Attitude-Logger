@@ -1,6 +1,6 @@
 # F16 Attitude Logger for Package Q Strike Footage
 
-![scene-image](./Images/scene-image.png)
+![scene-image](./Unity/Images/scene-image.png)
 
 This Unity project was created in order to log the attitude of the F16 which dodged 6 SAMs (Surface-to-air missiles) near Baghdad on 19th January 1991.
 
@@ -26,5 +26,5 @@ By connecting your iPhone with unity remote installed, you can control your main
 
 Alignment of attitude indicator is done by hands with iPhone's gyroscope. When aligned, touch the video screen and the attitude data is written to the file.
 
-![alignment_in_progress](./Images/alignment_in_progress.png)
-![alignment_done](./Images/alignment_done.png)
+![alignment_in_progress](./Unity/Images/alignment_in_progress.png)
+![alignment_done](./Unity/Images/alignment_done.png)
