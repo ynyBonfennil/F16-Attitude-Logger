@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour
 {
+    public bool enabled = true;
     public GameObject cameraRig;
+    public bool debugMode = false;
+    public Text logOut;
     private bool gyroEnabled;
     private Gyroscope gyro;
 
@@ -13,7 +17,10 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gyroEnabled = EnableGyro();
+        if (enabled)
+        {
+            gyroEnabled = EnableGyro();
+        }
     }
 
     private bool EnableGyro()
@@ -33,9 +40,14 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gyroEnabled)
+        if (enabled && gyroEnabled)
         {
             transform.localRotation = gyro.attitude * rot;
+        }
+        
+        if (debugMode)
+        {
+            logOut.text = (transform.rotation.eulerAngles.ToString());
         }
     }
 }
