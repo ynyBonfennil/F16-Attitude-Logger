@@ -12,28 +12,24 @@ public class NextButtonHandler : MonoBehaviour
     // public GameObject alignmentDoneIcon;
     public Text frameNumberText;
     public int videoStartFrame = 0;
+    public GameObject cameraRig;
     private string filepath;
     private bool isPointerDown = false;
     private int holdTime = 0;
 
     void Start()
     {
-        // Start Video Player
-        videoPlayer.frame = videoStartFrame;
-        videoPlayer.Play();
-        frameNumberText.text = ("Frame #" + videoStartFrame.ToString());
-
         // Create File
         DateTime now = DateTime.Now;
-        filepath = "Assets/Log/Attitude/"
+        filepath = "Assets/csv/Attitude/"
             + now.Year.ToString() + "-"
             + now.Month.ToString() + "-"
             + now.Day.ToString() + "-"
             + now.Hour.ToString() + "-"
             + now.Minute.ToString() + "-"
-            + now.Second.ToString() + ".log";
+            + now.Second.ToString() + ".csv";
         StreamWriter writer = new StreamWriter(filepath, true);
-        writer.WriteLine("frame,quat_w,quat_x,quat_y,quat_z,euler_x,euler_y,euler_z");
+        writer.WriteLine("frame,w,x,y,z,euler_x,euler_y,euler_z");
         writer.Close();
     }
 
@@ -89,7 +85,8 @@ public class NextButtonHandler : MonoBehaviour
     }
     private void WriteAttitudeData()
     {
-        Quaternion attitude = transform.rotation;
+        // Quaternion attitude = cameraRig.GetComponent<CameraController>().gyroValue;
+        Quaternion attitude = cameraRig.transform.localRotation;
         StreamWriter writer = new StreamWriter(filepath, true);
         writer.WriteLine(
             videoPlayer.frame.ToString()
