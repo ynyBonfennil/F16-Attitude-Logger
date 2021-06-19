@@ -8,7 +8,8 @@ public class CameraController : MonoBehaviour
     public bool enabled = true;
     public bool debugMode = false;
     public Text logOut;
-    public Quaternion gyroValue = Quaternion.Euler(0, 0, 0);
+    public Quaternion gyroValue = new Quaternion(0, 0, 0, 1);
+    public Quaternion airplaneAttitude = new Quaternion(0, 0, 0, 1);
     private bool gyroEnabled;
     private Gyroscope gyro;
 
@@ -42,19 +43,24 @@ public class CameraController : MonoBehaviour
         {
             gyroValue = gyro.attitude;
 
-            // iPhone's gyroscope is right-handed coordinate system, while unity is lefft-handed.
-            // hence we need to convert it.
-            Quaternion gyroValueInLeftHanded = new Quaternion(-gyroValue.x, -gyroValue.z, -gyroValue.y, gyroValue.w);
+            // Aircraft Principal Axes
+            // https://en.wikipedia.org/wiki/Aircraft_principal_axes
+            // Typical Roll, Pitch, Yaw system is based on right-handed coordinate system, and -Z up, X forward.
+            // Here we convert gyroscope value to fit this coordinate.
+            airplaneAttitude = new Quaternion(gyroValue.y, gyroValue.x, -gyroValue.z, gyroValue.w);
+            airplaneAttitude = airplaneAttitude * new Quaternion(0, 0.7f, 0, -0.7f);
 
-            // Since the attitude of no rotation (origin of rotation) in gyroscope is screen up (camer down)
-            // while that of unity is +Z direction, we need to rotate gyroscope value 90 degree along X axis.
+            // In order to control camera by gyroscope,
+            // 1. convert right-handed coordinate system to left-handed
+            // 2. rotate value 90 degree along X axis. (because the default gyroscope attitude is facing down,
+            //    while that of unity camera is facing horizontal)
+            Quaternion gyroValueInLeftHanded = new Quaternion(-gyroValue.x, -gyroValue.z, -gyroValue.y, gyroValue.w);
             transform.localRotation = gyroValueInLeftHanded * new Quaternion(0.7f, 0, 0, 0.7f);
         }
         
         if (debugMode)
         {
-            //logOut.text = (transform.localRotation.ToString());
-            logOut.text = transform.localRotation.eulerAngles.ToString();
+            logOut.text = airplaneAttitude.ToString();
         }
     }
 }

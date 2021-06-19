@@ -11,8 +11,6 @@ public class PrevButtonHandler : MonoBehaviour
     public Text frameNumberText;
     public void PreviousFrame()
     {
-        alignmentDoneIcon.SetActive(false);
-
         long nextFrame = videoPlayer.frame - 1;
         videoPlayer.frame = nextFrame;
         videoPlayer.Play();

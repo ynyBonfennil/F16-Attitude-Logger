@@ -86,7 +86,8 @@ public class NextButtonHandler : MonoBehaviour
     private void WriteAttitudeData()
     {
         // Quaternion attitude = cameraRig.GetComponent<CameraController>().gyroValue;
-        Quaternion attitude = cameraRig.transform.localRotation;
+        //Quaternion attitude = cameraRig.transform.localRotation;
+        Quaternion attitude = cameraRig.GetComponent<CameraController>().airplaneAttitude;
         StreamWriter writer = new StreamWriter(filepath, true);
         writer.WriteLine(
             videoPlayer.frame.ToString()
