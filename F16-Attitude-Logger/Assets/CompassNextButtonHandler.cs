@@ -10,68 +10,63 @@ public class CompassNextButtonHandler : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
     public Text frameNumberText;
-
-    public int playbackLatency = 10;
-    private int holdCounter;
-    private bool isHold;
+    public GameObject compassRig;
     private string filepath;
+    private bool isPointerDown = false;
+    private int holdTime = 0;
 
     void Start()
     {
-        holdCounter = 0;
-        isHold = false;
-
         DateTime now = DateTime.Now;
-        filepath = "Assets/Log/Compass/"
+        filepath = "Assets/csv/Direction/"
             + now.Year.ToString() + "-"
             + now.Month.ToString() + "-"
             + now.Day.ToString() + "-"
             + now.Hour.ToString() + "-"
             + now.Minute.ToString() + "-"
-            + now.Second.ToString() + ".log";
+            + now.Second.ToString() + ".csv";
         StreamWriter writer = new StreamWriter(filepath, true);
-        writer.WriteLine("frame,point");
+        writer.WriteLine("frame,direction");
         writer.Close();
     }
 
     void Update()
     {
-        if (isHold)
+        if (isPointerDown)
         {
-            holdCounter++;
-            if (holdCounter > playbackLatency)
+            holdTime += 1;
+            if (holdTime > 10000)
             {
-                WriteAirspeedData();
-                NextFrame();
-                holdCounter = 0;
+                holdTime -= 5000;
             }
+        }
+        else{
+            holdTime = 0;
+        }
+
+        if (holdTime == 1)
+        {
+            NextFrame();
+        }
+        else if (holdTime >= 30 && holdTime%10 == 0)
+        {
+            NextFrame();
         }
     }
 
-    public void OnNextButtonDown()
+    public void OnPointerDown()
     {
-        isHold = true;
+        isPointerDown = true;
     }
 
-    public void OnNextButtonUp()
+    public void OnPointerUp()
     {
-        isHold = false;
-    }
-
-    private void WriteAirspeedData()
-    {
-        StreamWriter writer = new StreamWriter(filepath, true);
-        writer.WriteLine(
-            videoPlayer.frame.ToString()
-            + ","
-        );
-        Debug.Log("Frame #" + videoPlayer.frame.ToString() + " Done");
-        writer.Close();
-
+        isPointerDown = false;
     }
 
     private void NextFrame()
     {
+        WriteCompassData();
         long nextFrame = videoPlayer.frame + 1;
         videoPlayer.frame = nextFrame;
         videoPlayer.Play();
@@ -80,5 +75,16 @@ public class CompassNextButtonHandler : MonoBehaviour
         // hense when you call videoPlayer.frame here, the frame
         // number might not be updated.
         frameNumberText.text = ("Frame #" + nextFrame.ToString());
+    }
+    private void WriteCompassData()
+    {
+        float direction = - compassRig.GetComponent<RectTransform>().anchoredPosition.x / 94.4f;
+        StreamWriter writer = new StreamWriter(filepath, true);
+        writer.WriteLine(
+            videoPlayer.frame.ToString()
+            + "," + direction.ToString()
+        );
+        Debug.Log("Frame #" + videoPlayer.frame.ToString() + " Done");
+        writer.Close();
     }
 }

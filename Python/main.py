@@ -23,11 +23,11 @@ def butter_lowpass_filter(data, cutoff, fs, order=5):
 
 if __name__ == "__main__":
     # Combine separated files into one
-    logs = glob.glob("./log/*.log")
+    logs = glob.glob("./csv/*.csv")
     logs.sort()
 
     log_combined = open(ATTITUDE_COMBINED_CSV, "w")
-    log_combined.writelines("frame,quat_w,quat_x,quat_y,quat_z,euler_x,euler_y,euler_z\n")
+    log_combined.writelines("frame,w,x,y,z,euler_x,euler_y,euler_z\n")
 
     for item in logs:
         with open(item, "r") as f:
@@ -41,10 +41,10 @@ if __name__ == "__main__":
                         header=0,
                         dtype={
                             "frame": int,
-                            "quat_w": float,
-                            "quat_x": float,
-                            "quat_y": float,
-                            "quat_z": float,
+                            "w": float,
+                            "x": float,
+                            "y": float,
+                            "z": float,
                             "euler_x": float,
                             "euler_y": float,
                             "euler_z": float,
@@ -58,15 +58,15 @@ if __name__ == "__main__":
     # but it seems it has euler_x, euler_y, euler_z = 6.16, 16, 0.373
     # Hence we remove it from all the rotation
     frame = np.array(df["frame"])
-    w = np.array(df["quat_w"])
-    x = np.array(df["quat_x"])
-    y = np.array(df["quat_y"])
-    z = np.array(df["quat_z"])
+    w = np.array(df["w"])
+    x = np.array(df["x"])
+    y = np.array(df["y"])
+    z = np.array(df["z"])
 
-    quat_offset = np.quaternion(w[0], x[0], y[0], z[0])
-    quat_offset_inv = quat_offset.inverse()
+    offset = np.quaternion(w[0], x[0], y[0], z[0])
+    offset_inv = offset.inverse()
     for i, _ in enumerate(frame):
-        quat = np.quaternion(w[i], x[i], y[i], z[i]) * quat_offset_inv
+        quat = np.quaternion(w[i], x[i], y[i], z[i]) * offset_inv
         w[i] = quat.w
         x[i] = quat.x
         y[i] = quat.y

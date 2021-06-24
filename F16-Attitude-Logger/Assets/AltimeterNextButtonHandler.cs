@@ -25,13 +25,13 @@ public class AltimeterNextButtonHandler : MonoBehaviour
         altimeterRectTransform = altimeter.GetComponent<RectTransform>();
 
         DateTime now = DateTime.Now;
-        filepath = "Assets/Log/Altitude/"
+        filepath = "Assets/csv/Altitude/"
             + now.Year.ToString() + "-"
             + now.Month.ToString() + "-"
             + now.Day.ToString() + "-"
             + now.Hour.ToString() + "-"
             + now.Minute.ToString() + "-"
-            + now.Second.ToString() + ".log";
+            + now.Second.ToString() + ".csv";
         StreamWriter writer = new StreamWriter(filepath, true);
         writer.WriteLine("frame,altitude");
         writer.Close();

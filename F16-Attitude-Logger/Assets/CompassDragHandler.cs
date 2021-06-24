@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class CompassDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
+    public Text debugOut;
     private RectTransform rectTransform;
     private Vector3 prevPointerPos;
-    private const float MAX_ANCHORED_POS_X = 1823.4f;
-    private const float MIN_ANCHORED_POS_X = -1622.0f;
+    private const float MAX_ANCHORED_POS_X = 100;
+    private const float MIN_ANCHORED_POS_X = -3400.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -16,9 +18,14 @@ public class CompassDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandl
         rectTransform = GetComponent<RectTransform>();
     }
 
+    void Update()
+    {
+        debugOut.text = (- rectTransform.anchoredPosition.x / 94.4f).ToString();
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
-        prevPointerPos = eventData.pressPosition;
+        prevPointerPos = Input.mousePosition;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -37,5 +44,4 @@ public class CompassDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandl
 
         prevPointerPos = eventData.position;
     }
-
 }

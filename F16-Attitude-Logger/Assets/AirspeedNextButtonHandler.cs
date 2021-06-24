@@ -28,13 +28,13 @@ public class AirspeedNextButtonHandler : MonoBehaviour
         airspeedIndicatorRectTransform = airspeedIndicator.GetComponent<RectTransform>();
 
         DateTime now = DateTime.Now;
-        filepath = "Assets/Log/Airspeed/"
+        filepath = "Assets/csv/Airspeed/"
             + now.Year.ToString() + "-"
             + now.Month.ToString() + "-"
             + now.Day.ToString() + "-"
             + now.Hour.ToString() + "-"
             + now.Minute.ToString() + "-"
-            + now.Second.ToString() + ".log";
+            + now.Second.ToString() + ".csv";
         StreamWriter writer = new StreamWriter(filepath, true);
         writer.WriteLine("frame,airspeed");
         writer.Close();

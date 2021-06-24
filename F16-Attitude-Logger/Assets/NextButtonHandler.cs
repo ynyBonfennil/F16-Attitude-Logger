@@ -52,7 +52,7 @@ public class NextButtonHandler : MonoBehaviour
         {
             NextFrame();
         }
-        else if (holdTime >= 30 && holdTime%5 == 0)
+        else if (holdTime >= 30 && holdTime%10 == 0)
         {
             NextFrame();
         }
