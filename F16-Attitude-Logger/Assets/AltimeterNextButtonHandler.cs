@@ -10,19 +10,15 @@ public class AltimeterNextButtonHandler : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
     public Text frameNumberText;
-    public int playbackLatency = 10;
-    public int startFrame;
-    public GameObject altimeter;
-    private int holdCounter;
-    private bool isHold;
+    public GameObject altimeterRig;
     private string filepath;
-    private RectTransform altimeterRectTransform;
+    private bool isPointerDown = false;
+    private int holdTime = 0;
+    private RectTransform rectTransform;
 
     void Start()
     {
-        holdCounter = 0;
-        isHold = false;
-        altimeterRectTransform = altimeter.GetComponent<RectTransform>();
+        rectTransform = altimeterRig.GetComponent<RectTransform>();
 
         DateTime now = DateTime.Now;
         filepath = "Assets/csv/Altitude/"
@@ -35,51 +31,45 @@ public class AltimeterNextButtonHandler : MonoBehaviour
         StreamWriter writer = new StreamWriter(filepath, true);
         writer.WriteLine("frame,altitude");
         writer.Close();
-
-        videoPlayer.frame = startFrame;
-        videoPlayer.Play();
-        frameNumberText.text = ("Frame #2000");
     }
 
     void Update()
     {
-        if (isHold)
+        if (isPointerDown)
         {
-            holdCounter++;
-            if (holdCounter > playbackLatency)
+            holdTime += 1;
+            if (holdTime > 10000)
             {
-                WriteAltitudeData();
-                NextFrame();
-                holdCounter = 0;
+                holdTime -= 5000;
             }
+        }
+        else {
+            holdTime = 0;
+        }
+
+        if (holdTime == 1)
+        {
+            NextFrame();
+        }
+        else if (holdTime >= 30 && holdTime %2 == 0)
+        {
+            NextFrame();
         }
     }
 
-    public void OnNextButtonDown()
+    public void OnPointerDown()
     {
-        isHold = true;
+        isPointerDown = true;
     }
 
-    public void OnNextButtonUp()
+    public void OnPointerUp()
     {
-        isHold = false;
-    }
-
-    private void WriteAltitudeData()
-    {
-        StreamWriter writer = new StreamWriter(filepath, true);
-        writer.WriteLine(
-            videoPlayer.frame.ToString()
-            + ","
-            + (-0.008526*altimeterRectTransform.anchoredPosition.y-8.3581).ToString()
-        );
-        Debug.Log("Frame #" + videoPlayer.frame.ToString() + " Done");
-        writer.Close();
-
+        isPointerDown = false;
     }
 
     private void NextFrame()
     {
+        WriteAltitudeData();
         long nextFrame = videoPlayer.frame + 1;
         videoPlayer.frame = nextFrame;
         videoPlayer.Play();
@@ -88,5 +78,16 @@ public class AltimeterNextButtonHandler : MonoBehaviour
         // hense when you call videoPlayer.frame here, the frame
         // number might not be updated.
         frameNumberText.text = ("Frame #" + nextFrame.ToString());
+    }
+    private void WriteAltitudeData()
+    {
+        float altitude = - rectTransform.anchoredPosition.y * 0.00852486f + 4.19781f;
+        StreamWriter writer = new StreamWriter(filepath, true);
+        writer.WriteLine(
+            videoPlayer.frame.ToString()
+            + "," + altitude.ToString()
+        );
+        Debug.Log("Frame #" + videoPlayer.frame.ToString() + " Done");
+        writer.Close();
     }
 }

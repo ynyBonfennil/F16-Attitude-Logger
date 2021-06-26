@@ -1,20 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class AltimeterDragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
-    public float sensitivity = 0.5f;
+    public Text debugOut;
     private RectTransform rectTransform;
     private Vector3 prevPointerPos;
-    private const float MAX_ANCHORED_POS_Y = 1564.09f;
-    private const float MIN_ANCHORED_POS_Y = -1368.0f;
+    private const float MAX_ANCHORED_POS_Y = 0.0f;
+    private const float MIN_ANCHORED_POS_Y = -3122.0f;
 
     // Start is called before the first frame update
     void Start()
     {
         rectTransform = GetComponent<RectTransform>();
+    }
+
+    void Update()
+    {
+        /*
+            -94.1 --> 5
+            -3026.7 --> 30
+        */
+        debugOut.text = (- rectTransform.anchoredPosition.y * 0.00852486f + 4.19781f).ToString();
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -25,7 +35,7 @@ public class AltimeterDragHandler : MonoBehaviour, IPointerDownHandler, IDragHan
     public void OnDrag(PointerEventData eventData)
     {
         float deltaY = eventData.position.y - prevPointerPos.y;
-        float newAnchoredPositionY = rectTransform.anchoredPosition.y + deltaY * sensitivity;
+        float newAnchoredPositionY = rectTransform.anchoredPosition.y + deltaY;
         if (newAnchoredPositionY < MIN_ANCHORED_POS_Y)
         {
             newAnchoredPositionY = MIN_ANCHORED_POS_Y;

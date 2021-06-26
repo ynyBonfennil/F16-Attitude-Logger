@@ -11,22 +11,16 @@ public class AirspeedNextButtonHandler : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
     public Text frameNumberText;
-
-    public int playbackLatency = 10;
-    public int startFrame;
-
-    public GameObject airspeedIndicator;
-    private int holdCounter;
-    private bool isHold;
+    public GameObject indicatorRig;
     private string filepath;
-    private RectTransform airspeedIndicatorRectTransform;
+    private bool isPointerDown = false;
+    private int holdTime = 0;
+    private RectTransform rectTransform;
 
     void Start()
     {
-        holdCounter = 0;
-        isHold = false;
-        airspeedIndicatorRectTransform = airspeedIndicator.GetComponent<RectTransform>();
-
+        rectTransform = GetComponent<RectTransform>();
+ 
         DateTime now = DateTime.Now;
         filepath = "Assets/csv/Airspeed/"
             + now.Year.ToString() + "-"
@@ -38,51 +32,45 @@ public class AirspeedNextButtonHandler : MonoBehaviour
         StreamWriter writer = new StreamWriter(filepath, true);
         writer.WriteLine("frame,airspeed");
         writer.Close();
-
-        videoPlayer.frame = startFrame;
-        videoPlayer.Play();
-        frameNumberText.text = ("Frame #2000");
     }
 
     void Update()
     {
-        if (isHold)
+        if (isPointerDown)
         {
-            holdCounter++;
-            if (holdCounter > playbackLatency)
+            holdTime += 1;
+            if (holdTime > 10000)
             {
-                WriteAirspeedData();
-                NextFrame();
-                holdCounter = 0;
+                holdTime -= 5000;
             }
+        }
+        else {
+            holdTime = 0;
+        }
+
+        if (holdTime == 1)
+        {
+            NextFrame();
+        }
+        else if (holdTime >= 30 && holdTime%2 == 0)
+        {
+            NextFrame();
         }
     }
 
-    public void OnNextButtonDown()
+    public void OnPointerDown()
     {
-        isHold = true;
+        isPointerDown = true;
     }
 
-    public void OnNextButtonUp()
+    public void OnPointerUp()
     {
-        isHold = false;
-    }
-
-    private void WriteAirspeedData()
-    {
-        StreamWriter writer = new StreamWriter(filepath, true);
-        writer.WriteLine(
-            videoPlayer.frame.ToString()
-            + ","
-            + (-0.085*airspeedIndicatorRectTransform.anchoredPosition.y+41.072).ToString()
-        );
-        Debug.Log("Frame #" + videoPlayer.frame.ToString() + " Done");
-        writer.Close();
-
+        isPointerDown = false;
     }
 
     private void NextFrame()
     {
+        WriteAirspeedData();
         long nextFrame = videoPlayer.frame + 1;
         videoPlayer.frame = nextFrame;
         videoPlayer.Play();
@@ -91,5 +79,17 @@ public class AirspeedNextButtonHandler : MonoBehaviour
         // hense when you call videoPlayer.frame here, the frame
         // number might not be updated.
         frameNumberText.text = ("Frame #" + nextFrame.ToString());
+    }
+
+    private void WriteAirspeedData()
+    {
+        float airspeed = - rectTransform.anchoredPosition.y * 0.07941259f - 8.13899635f;
+        StreamWriter writer = new StreamWriter(filepath, true);
+        writer.WriteLine(
+            videoPlayer.frame.ToString()
+            + "," + airspeed.ToString()
+        );
+        Debug.Log("Frame #" + videoPlayer.frame.ToString() + " Done");
+        writer.Close();
     }
 }
