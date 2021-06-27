@@ -19,7 +19,7 @@ public class AirspeedNextButtonHandler : MonoBehaviour
 
     void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
+        rectTransform = indicatorRig.GetComponent<RectTransform>();
  
         DateTime now = DateTime.Now;
         filepath = "Assets/csv/Airspeed/"
@@ -52,7 +52,7 @@ public class AirspeedNextButtonHandler : MonoBehaviour
         {
             NextFrame();
         }
-        else if (holdTime >= 30 && holdTime%2 == 0)
+        else if (holdTime >= 30 && holdTime%5 == 0)
         {
             NextFrame();
         }
@@ -83,7 +83,7 @@ public class AirspeedNextButtonHandler : MonoBehaviour
 
     private void WriteAirspeedData()
     {
-        float airspeed = - rectTransform.anchoredPosition.y * 0.07941259f - 8.13899635f;
+        float airspeed = - rectTransform.anchoredPosition.y * 0.0629967f - 8.01947991f;
         StreamWriter writer = new StreamWriter(filepath, true);
         writer.WriteLine(
             videoPlayer.frame.ToString()

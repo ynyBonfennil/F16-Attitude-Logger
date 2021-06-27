@@ -10,7 +10,7 @@ public class AltimeterDragHandler : MonoBehaviour, IPointerDownHandler, IDragHan
     private RectTransform rectTransform;
     private Vector3 prevPointerPos;
     private const float MAX_ANCHORED_POS_Y = 0.0f;
-    private const float MIN_ANCHORED_POS_Y = -3122.0f;
+    private const float MIN_ANCHORED_POS_Y = -3750.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -21,10 +21,10 @@ public class AltimeterDragHandler : MonoBehaviour, IPointerDownHandler, IDragHan
     void Update()
     {
         /*
-            -94.1 --> 5
-            -3026.7 --> 30
+            -112.6 --> 5
+            -3639.2 --> 30
         */
-        debugOut.text = (- rectTransform.anchoredPosition.y * 0.00852486f + 4.19781f).ToString();
+        debugOut.text = (- rectTransform.anchoredPosition.y * 0.00708898f + 4.20178085f).ToString();
     }
 
     public void OnPointerDown(PointerEventData eventData)

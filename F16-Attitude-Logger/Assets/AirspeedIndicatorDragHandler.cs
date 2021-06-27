@@ -21,12 +21,11 @@ public class AirspeedIndicatorDragHandler : MonoBehaviour, IPointerDownHandler, 
     void Update()
     {
         /*
-            -102.49 --> 0
-            -165 --> 5
-            -921 --> 65
-            airspeed = - anchoredPosition.y * 12.5924 - 102.49
+            -127.3 --> 0
+            -1159.1 --> 65
+            airspeed = - anchoredPosition.y * 0.0629967 - 8.01947991
         */
-        debugOut.text = (- rectTransform.anchoredPosition.y * 0.07941259f - 8.13899635f).ToString();
+        debugOut.text = (- rectTransform.anchoredPosition.y * 0.0629967f - 8.01947991f).ToString();
     }
 
     public void OnPointerDown(PointerEventData eventData)

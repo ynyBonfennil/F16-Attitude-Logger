@@ -51,7 +51,7 @@ public class AltimeterNextButtonHandler : MonoBehaviour
         {
             NextFrame();
         }
-        else if (holdTime >= 30 && holdTime %2 == 0)
+        else if (holdTime >= 30 && holdTime %5 == 0)
         {
             NextFrame();
         }
@@ -81,7 +81,7 @@ public class AltimeterNextButtonHandler : MonoBehaviour
     }
     private void WriteAltitudeData()
     {
-        float altitude = - rectTransform.anchoredPosition.y * 0.00852486f + 4.19781f;
+        float altitude = - rectTransform.anchoredPosition.y * 0.00708898f + 4.20178085f;
         StreamWriter writer = new StreamWriter(filepath, true);
         writer.WriteLine(
             videoPlayer.frame.ToString()
